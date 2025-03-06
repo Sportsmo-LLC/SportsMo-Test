@@ -1,11 +1,14 @@
 import pytest
-from pages.auth.page_auth_logout import LogoutPage
-from pages.auth.page_auth_login import LoginPage  # Import the login page
 
+from pages.auth.page_auth_login import LoginPage
+from pages.auth.page_auth_logout import LogoutPage
 def test_mobile_logout(appium_driver):
-    login_page = LoginPage(appium_driver)  # Initialize the login page
-    login_page.login("shivanijainlunia@gmail.com", "Intelcorei3uv@")
+    """Test case to verify logout functionality."""
+    
+    login_page = LoginPage(appium_driver)
+    login_page.login("shivanijainlunia@gmail.com", "Intelcorei3uv@")  # Perform login
     
     logout_page = LogoutPage(appium_driver)
-    logout_page.logout()
-    assert logout_page.is_visible("//android.widget.Button[@content-desc='Sign up with email']"), "Logout failed!"
+    logout_page.perform_logout()  # Perform logout
+    
+    assert logout_page.is_logout_successful(), "Logout failed!"

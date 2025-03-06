@@ -88,8 +88,6 @@ pytest --html=report.html --self-contained-html
 3. Commit your changes.
 4. Push to the branch and create a PR.
 
-## 📝 License
-MIT License © SportsMo Team.
 
 
 
