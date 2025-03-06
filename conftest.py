@@ -18,7 +18,7 @@ def appium_driver():
     options.load_capabilities(desired_caps)
 
     driver = webdriver.Remote(
-        command_executor="http://127.0.0.1:4723",
+        command_executor="http://localhost:4723",
         options=options  # Use AppiumOptions instead of directly passing desired_caps
     )
  

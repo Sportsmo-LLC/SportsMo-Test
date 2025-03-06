@@ -1,22 +1,29 @@
 from pages.base_page import BasePage
-from appium.webdriver.common.appiumby import AppiumBy
+
 class LoginPage(BasePage):
     def __init__(self, driver):
-     super().__init__(driver)
-     
-    # Locators
-    LOGIN_BUTTON = "//android.widget.Button[@content-desc='Log in']"
-    EMAIL_TEXT_BOX = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]"
-    EMAIL_TEXT_BOX_2 = "//android.widget.ScrollView/android.widget.EditText[1]"
-    PASSWORD_TEXT_BOX = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[2]"
-    PASSWORD_TEXT_BOX_2 = "//android.widget.ScrollView/android.widget.EditText[2]"
-    
+        super().__init__(driver)
+
+        # Locators for login elements
+        self.LOGIN_BUTTON = "//android.widget.Button[@content-desc='Log in']"
+        self.EMAIL_FIELD_CONTAINER = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]"
+        self.EMAIL_FIELD_INPUT = "//android.widget.ScrollView/android.widget.EditText[1]"
+        self.PASSWORD_FIELD_CONTAINER = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[2]"
+        self.PASSWORD_FIELD_INPUT = "//android.widget.ScrollView/android.widget.EditText[2]"
+
     def login(self, email, password):
-        """Perform login action"""
-        self.click(self.LOGIN_BUTTON)
-        self.click(self.EMAIL_TEXT_BOX)
-        self.type(self.EMAIL_TEXT_BOX_2, email)
-        self.click(self.PASSWORD_TEXT_BOX_2)
-        self.type(self.PASSWORD_TEXT_BOX_2, password)
-        self.click(self.LOGIN_BUTTON)
-        
+        """Perform login action."""
+        self.click(self.LOGIN_BUTTON)  # Open login page
+        self.click(self.EMAIL_FIELD_CONTAINER)  # Click email text box container
+        self.type(self.EMAIL_FIELD_INPUT, email)  # Enter email
+        self.click(self.PASSWORD_FIELD_INPUT)  # Click password text box
+        self.type(self.PASSWORD_FIELD_INPUT, password)  # Enter password
+        self.click(self.LOGIN_BUTTON)  # Submit login
+
+    def verify_login_success(self):
+        """Verify successful login by checking the Highlights View."""
+        return self.is_visible("//android.view.View[@content-desc='Highlights View']")
+
+    def verify_invalid_login(self):
+        """Verify invalid login attempt by checking for an error message."""
+        return self.is_visible("//android.view.View[@content-desc='Invalid credentials']")
