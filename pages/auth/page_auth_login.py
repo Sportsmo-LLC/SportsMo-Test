@@ -13,17 +13,15 @@ class LoginPage(BasePage):
 
     def login(self, email, password):
         """Perform login action."""
-        self.click(self.LOGIN_BUTTON)  # Open login page
-        self.click(self.EMAIL_FIELD_CONTAINER)  # Click email text box container
-        self.type(self.EMAIL_FIELD_INPUT, email)  # Enter email
-        self.click(self.PASSWORD_FIELD_INPUT)  # Click password text box
-        self.type(self.PASSWORD_FIELD_INPUT, password)  # Enter password
-        self.click(self.LOGIN_BUTTON)  # Submit login
+        self.click(self.LOGIN_BUTTON)  
+        self.click(self.EMAIL_FIELD_CONTAINER) 
+        self.type(self.EMAIL_FIELD_INPUT, email)  
+        self.click(self.PASSWORD_FIELD_INPUT) 
+        self.type(self.PASSWORD_FIELD_INPUT, password) 
+        self.click(self.LOGIN_BUTTON) 
 
     def verify_login_success(self):
-        """Verify successful login by checking the Highlights View."""
         return self.is_visible("//android.view.View[@content-desc='Highlights View']")
 
     def verify_invalid_login(self):
-        """Verify invalid login attempt by checking for an error message."""
         return self.is_visible("//android.view.View[@content-desc='Invalid credentials']")
