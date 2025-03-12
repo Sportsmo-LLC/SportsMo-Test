@@ -20,7 +20,6 @@ class SignUpPage(BasePage):
         self.PASSWORD_ERROR_MESSAGE = "//android.view.View[@content-desc='Password must be 8+ chars with at least one uppercase, one lowercase, one number & one special char (@$!%*?&).']"
 
     def signup(self, email, password):
-        """Performs signup using given email and password"""
         self.click(self.SIGNUP_BUTTON)
         self.click(self.EMAIL_SIGNUP_BUTTON)
         self.type(self.EMAIL_TEXTBOX, email)
@@ -30,8 +29,7 @@ class SignUpPage(BasePage):
         self.click(self.CREATE_ACCOUNT)
 
     def verify_signup_success(self):
-        """Verifies successful signup by checking the presence of the 'Select your favorite teams' page"""
-        wait = WebDriverWait(self.driver, 15)  # Increased timeout to handle slow UI rendering
+        wait = WebDriverWait(self.driver, 15)  
         try:
             wait.until(EC.presence_of_element_located((By.XPATH, self.SELECT_TEAMS_PAGE)))
             assert self.is_visible(self.SELECT_TEAMS_PAGE), "Signup failed! 'Select your favorite teams' page not found."
@@ -39,7 +37,6 @@ class SignUpPage(BasePage):
             raise AssertionError(f"Signup verification failed! Error: {e}")
 
     def verify_user_already_registered(self):
-        """Verifies that a toast message appears when an existing user tries to sign up"""
         wait = WebDriverWait(self.driver, 5)
         try:
             toast_message_element = wait.until(EC.presence_of_element_located((By.XPATH, self.ERROR_TOAST)))
@@ -49,7 +46,6 @@ class SignUpPage(BasePage):
             raise AssertionError("Toast message for existing user not displayed!")
 
     def skip_initial_setup(self):
-        """Skips the setup process after signup"""
         wait = WebDriverWait(self.driver, 10)
         try:
             wait.until(EC.element_to_be_clickable((By.XPATH, self.SKIP_BUTTON)))
@@ -58,7 +54,6 @@ class SignUpPage(BasePage):
             raise AssertionError("Skip button not found or not clickable after signup!")
 
     def verify_password_requirement_message(self):
-        """Checks if the password error message is displayed"""
         wait = WebDriverWait(self.driver, 5)
         try:
             error_message_element = wait.until(
