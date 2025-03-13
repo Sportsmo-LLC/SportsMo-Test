@@ -10,8 +10,6 @@ from appium.webdriver.common.touch_action import TouchAction
 class FavoriteTeamsPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
-
-        # Locators
         self.FAVORITE_TEAMS_TAB = "//android.widget.ImageView[@content-desc='Favorite Teams']"
         self.SEARCH_TEAM = "//android.widget.EditText"
         self.CROSS_BUTTON = "//android.widget.EditText[@text='Tigers']/android.widget.ImageView[2]"
@@ -27,7 +25,6 @@ class FavoriteTeamsPage(BasePage):
         self.PAC_12_TAB = "//android.view.View[contains(@content-desc, 'PAC-12')]"
         self.SOUTHEASTERN_TAB = "//android.view.View[contains(@content-desc, 'SOUTHEASTERN')]"
         self.SUN_BELT_TAB = "//android.view.View[contains(@content-desc, 'SUN BELT')]"
-        # Dynamic team selector using lambda (returns XPath based on team name)
         self.SELECT_TEAM = lambda team_name: f"//android.view.View[@content-desc='{team_name}']"
         self.CONTINUE_BUTTON = "//android.widget.Button[contains(@content-desc, 'Continue with')]"
         self.DISMISS_BUTTON = "//android.widget.Button[@content-desc='Dismiss']"
@@ -58,11 +55,6 @@ class FavoriteTeamsPage(BasePage):
         self.click(self.ALL_TEAMS_TAB)
 
     def select_team(self, conference_name, team_name):
-        """
-        Selects a team by first ensuring the correct conference tab is selected 
-        using horizontal scrolling, and then scrolling vertically to find the team.
-        """
-        # Mapping conference names to their dynamic locators
         conference_locators = {
             "ALL TEAMS": self.ALL_TEAMS_TAB,
             "AMERICAN ATHLETIC": self.AMERICAN_ATHLETIC_CONFERENCE_TAB,
@@ -79,11 +71,11 @@ class FavoriteTeamsPage(BasePage):
         }
         if conference_name not in conference_locators:
             raise Exception(f"Conference {conference_name} not recognized.")
-        # Horizontal scroll to select conference tab
+      
         self.scroll_horizontally_to_element(conference_locators[conference_name]).click()
-        # Build team XPath using the lambda
+        
         team_xpath = self.SELECT_TEAM(team_name)
-        # Use UiScrollable to scroll vertically to the team
+       
         self.scroll_vertically_to_element(team_xpath).click()
         print(f"✅ Selected team: {team_name}")
 
@@ -130,12 +122,8 @@ class FavoriteTeamsPage(BasePage):
     def select_sun_belt_tab(self):
         self.click(self.SUN_BELT_TAB)
 
-    # --- Scrolling Methods ---
     def scroll_horizontally_to_element(self, locator, attempts=5):
-        """
-        Scrolls horizontally until the element is found or attempts run out.
-        Uses the provided locator.
-        """
+       
         for _ in range(attempts):
             try:
                 element = self.driver.find_element(AppiumBy.XPATH, locator)
@@ -143,7 +131,6 @@ class FavoriteTeamsPage(BasePage):
                     return element
             except Exception:
                 pass
-            # Perform a horizontal swipe (adjust coordinates as needed)
             screen_size = self.driver.get_window_size()
             start_x = int(screen_size['width'] * 0.9)
             end_x = int(screen_size['width'] * 0.1)
