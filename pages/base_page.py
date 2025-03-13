@@ -15,7 +15,7 @@ class BasePage:
 
     def click(self, locator):
         """Click an element after ensuring it's visible."""
-        self.wait_for_element(locator)  # Ensure element is visible before clicking
+        self.wait_for_element(locator) 
         self.find(locator).click()
 
     def wait_and_click(self, locator, timeout=10):
@@ -27,9 +27,9 @@ class BasePage:
 
     def type(self, locator, text):
         """Enter text into a field after ensuring it's visible."""
-        self.wait_for_element(locator)  # Ensure field is visible before typing
+        self.wait_for_element(locator) 
         field = self.find(locator)
-        field.clear()  # Clear existing text before typing
+        field.clear() 
         field.send_keys(text)
 
     def is_visible(self, locator, timeout=10):
@@ -49,6 +49,6 @@ class BasePage:
 
     def go_to_more(self):
         """Navigate to the More tab only if not already there."""
-        current_activity = self.driver.current_activity  # Adjust as per actual activity name
-        if "more" not in current_activity.lower():  # Check if already on More page
+        current_activity = self.driver.current_activity  
+        if "more" not in current_activity.lower(): 
             self.click(self.MORE_BUTTON)
